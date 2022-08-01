@@ -1,6 +1,41 @@
 # Turkish-Lemmatizer
 This is a lemmatization tool for Turkish Language. Three steps require to make this lemmatizer. Lexicons, handling inflectional suffixes which changes lemma, and checking if suffixes are valid or not.
 
+## How to run using Docker
+1. Clone the repo
+```bash
+git clone https://github.com/BOUN-TABILab-TULAP/Lemmatizer.git
+```
+2. Launch a terminal in the root directory of the repo and build the Docker image where
+- `-t` is the tag for the Docker image. You can provide any name you want
+- `.` is the relative path to the Dockerfile 
+```bash
+docker build -t lemmatizer .
+```
+3. Run the Docker image where
+- `-d` indicates "detach", let the container run in the background
+- `-p 3000:3000` indicates mapping port 3000 of the container to the port 3000 of the host.
+```bash
+docker run -d -p 3000:3000 lemmatizer
+```
+4. Send a POST request
+- via curl
+    ```bash
+    curl -X POST http://localhost:3000/evaluate 
+   -H 'Content-Type: application/json' 
+   -d '{"word":"kitabı"}'
+
+   > {"result": [["kitap_1", "unsuz yumusamasi", "kitab_1"], ["kit_1", "kok", "kit_1"], ["ki_1", "kok", "ki_1"], ["k_1", "kok", "k_1"]]}
+    ```
+- via Python's requests library
+    ```python
+    import requests
+    res = requests.post('http://localhost:3000/evaluate', json={'word':'kitabı'})
+    print(res.json())
+
+    > {"result": [["kitap_1", "unsuz yumusamasi", "kitab_1"], ["kit_1", "kok", "kit_1"], ["ki_1", "kok", "ki_1"], ["k_1", "kok", "k_1"]]}
+    ```
+
 ## 1.Lexicons
 The best lexicon for Turkish language is a dictionary from Turkish Language Instutition([TDK](http://www.tdk.gov.tr/index.php?option=com_gts)). However, it is not available online as a dataset so we use alternatives.
 
