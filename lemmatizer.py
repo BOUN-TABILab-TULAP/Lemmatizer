@@ -125,4 +125,4 @@ if __name__ == "__main__":
         print("Please run trainLexicon.py to generate revisedDict.pkl file")
 
     from waitress import serve
-    serve(app,host='0.0.0.0',port=3002)
+    serve(app,host='0.0.0.0',port=3000)
